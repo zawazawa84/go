@@ -25,12 +25,8 @@ func PostArticleHandler(w http.ResponseWriter, req *http.Request) {
 	}
 
 	article := reqArticle
-	jsonData, err := json.Marshal(article)
-	if err != nil {
-		http.Error(w, "fail to encode jso-n\n", http.StatusInternalServerError)
-		return
-	}
-	w.Write(jsonData)
+	json.NewEncoder(w).Encode(article)
+	
 }
 
 // /article/list のハンドラ
