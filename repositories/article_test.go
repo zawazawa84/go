@@ -1,8 +1,6 @@
 package repositories_test
 
 import (
-	"database/sql"
-	"fmt"
 	"testing"
 
 	"github.com/ikiat/work/models"
@@ -10,18 +8,19 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func TestSelectArticleDetail(t *testing.T) {
-	dbUser := "docker"
-	dbPassword := "docker"
-	dbDatabase := "sampledb"
-	dbConn := fmt.Sprintf("%s:%s@tcp(127.0.0.1:3306)/%s?parseTime=true", dbUser, dbPassword, dbDatabase)
-
-	db, err := sql.Open("mysql", dbConn)
+func TestSelectArticleList(t *testing.T) {
+	expectedNum := 3
+	got, err := repositories.SelectArticleList(testDB, 1)
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer db.Close()
 
+	if num := len(got); num != expectedNum {
+		t.Errorf("want %d but got %d articles\n", expectedNum, num)
+	}
+}
+
+func TestSelectArticleDetail(t *testing.T) {
 	tests := []struct {
 		testTitle string
 		expected models.Article
@@ -49,7 +48,7 @@ func TestSelectArticleDetail(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.testTitle, func(t *testing.T) {
-			got, err := repositories.SelectArticleDetail(db, test.expected.ID)
+			got, err := repositories.SelectArticleDetail(testDB, test.expected.ID)
 			if err != nil {
 				t.Fatal(err)
 			}
