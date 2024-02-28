@@ -3,6 +3,8 @@ package repositories
 import (
 	"database/sql"
 	"github.com/ikiat/work/models"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 const (

@@ -3,6 +3,8 @@ package services
 import (
 	"github.com/ikiat/work/models"
 	"github.com/ikiat/work/repositories"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func PostArticleService(article models.Article) (models.Article, error) {

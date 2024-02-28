@@ -3,6 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"io"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -54,6 +55,7 @@ func ArticleListHandler(w http.ResponseWriter, req *http.Request) {
 	articleList, err := services.GetArticleListService(page)
 	if err != nil {
 		http.Error(w, "fail internal exec\n", http.StatusInternalServerError)
+		log.Print(err)
 		return
 	} 
 
@@ -68,7 +70,7 @@ func ArticleDetailHandler(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	article, err := services.GetArticleListService(articleID)
+	article, err := services.GetArticleService(articleID)
 	if err != nil {
 		http.Error(w, "fail internal exec\n", http.StatusInternalServerError)
 		return
